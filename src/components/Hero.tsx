@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import heroFigure from "@/assets/hero-figure.png";
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden mesh-gradient grid-pattern">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden mesh-gradient grid-pattern pt-20 md:pt-0">
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute w-96 h-96 rounded-full bg-primary/20 blur-3xl"
+          className="absolute w-64 h-64 md:w-96 md:h-96 rounded-full bg-primary/20 blur-3xl"
           style={{ top: "10%", left: "10%" }}
           animate={{
             x: [0, 50, 0],
@@ -18,7 +18,7 @@ const Hero = () => {
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute w-80 h-80 rounded-full bg-secondary/20 blur-3xl"
+          className="absolute w-56 h-56 md:w-80 md:h-80 rounded-full bg-secondary/20 blur-3xl"
           style={{ bottom: "20%", right: "10%" }}
           animate={{
             x: [0, -40, 0],
@@ -29,8 +29,8 @@ const Hero = () => {
         />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Content */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -43,17 +43,31 @@ const Hero = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6 -ml-2 sm:-ml-4 md:-ml-6"
             >
               <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-muted-foreground">3D Printing Studio</span>
+              <span className="text-sm font-medium text-muted-foreground">
+                Estúdio de Impressão 3D
+              </span>
+            </motion.div>
+
+            {/* Logo */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="flex justify-center lg:justify-start mb-6"
+            >
+              <img
+                src="/logos/logo-white.png"
+                alt="Toca Geek logo"
+                className="h-44 sm:h-44 md:h-44 lg:h-44 xl:h-52 w-auto"
+              />
             </motion.div>
 
             {/* Headline */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-              <span className="gradient-text">Level Up</span>
-              <br />
-              <span className="text-foreground">Your Reality.</span>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl font-orbitron font-bold tracking-tight leading-none mb-4 md:mb-6">
+              <span className="gradient-text">Toca Geek</span>
             </h1>
 
             {/* Subheadline */}
@@ -61,10 +75,13 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-6 md:mb-8 leading-relaxed px-2 sm:px-0"
             >
-              From custom RPG miniatures to industrial prototypes. If you can imagine it,{" "}
-              <span className="text-foreground font-medium">Toca Geek prints it.</span>
+              De miniaturas personalizadas a protótipos industriais. Se você
+              pode imaginar,{" "}
+              <span className="text-foreground font-medium">
+                a Toca Geek imprime.
+              </span>
             </motion.p>
 
             {/* CTA Buttons */}
@@ -76,10 +93,10 @@ const Hero = () => {
             >
               <Button size="lg" className="group">
                 <Rocket className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
-                Start Project
+                Iniciar Projeto
               </Button>
               <Button variant="outline" size="lg">
-                View Gallery
+                Ver Galeria
               </Button>
             </motion.div>
 
@@ -88,16 +105,20 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.6 }}
-              className="flex gap-8 mt-12 justify-center lg:justify-start"
+              className="flex gap-4 sm:gap-6 md:gap-8 mt-8 md:mt-12 justify-center lg:justify-start"
             >
               {[
-                { value: "500+", label: "Projects" },
                 { value: "100%", label: "Geek" },
-                { value: "24/7", label: "Support" },
+                { value: "Alta", label: "Qualidade" },
+                { value: "24/7", label: "Suporte" },
               ].map((stat, i) => (
                 <div key={i} className="text-center">
-                  <div className="text-2xl font-bold gradient-text">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  <div className="text-xl sm:text-2xl font-bold gradient-text">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">
+                    {stat.label}
+                  </div>
                 </div>
               ))}
             </motion.div>
@@ -108,12 +129,12 @@ const Hero = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center mt-8 lg:mt-0"
           >
             <div className="relative">
               {/* Glow background */}
               <div className="absolute inset-0 bg-gradient-primary rounded-3xl blur-3xl opacity-30 scale-90" />
-              
+
               {/* Main floating card */}
               <motion.div
                 animate={{
@@ -125,13 +146,13 @@ const Hero = () => {
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="relative glass-card-hover p-4 rounded-3xl"
+                className="relative glass-card-hover p-2 sm:p-4 rounded-3xl"
               >
                 {/* Hero Figure Image */}
-                <div className="w-72 h-80 md:w-80 md:h-96 rounded-2xl overflow-hidden">
-                  <img 
-                    src={heroFigure} 
-                    alt="High-detail 3D printed anime collectible figure" 
+                <div className="w-56 h-64 sm:w-72 sm:h-80 md:w-80 md:h-96 rounded-2xl overflow-hidden">
+                  <img
+                    src={heroFigure}
+                    alt="Figura colecionável de anime impressa em 3D com alta qualidade"
                     className="w-full h-full object-cover object-center"
                   />
                 </div>
@@ -139,18 +160,32 @@ const Hero = () => {
                 {/* Floating badges */}
                 <motion.div
                   animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                  className="absolute -top-4 -right-4 glass-card px-4 py-2 rounded-full"
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.5,
+                  }}
+                  className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 glass-card px-2 py-1 sm:px-4 sm:py-2 rounded-full"
                 >
-                  <span className="text-sm font-medium gradient-text">PLA / Resin</span>
+                  <span className="text-xs sm:text-sm font-medium gradient-text">
+                    PLA / Resina
+                  </span>
                 </motion.div>
 
                 <motion.div
                   animate={{ y: [0, 10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute -bottom-4 -left-4 glass-card px-4 py-2 rounded-full"
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1,
+                  }}
+                  className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 glass-card px-2 py-1 sm:px-4 sm:py-2 rounded-full"
                 >
-                  <span className="text-sm font-medium text-foreground">✨ Ultra Detail</span>
+                  <span className="text-xs sm:text-sm font-medium text-foreground">
+                    ✨ Ultra Detalhe
+                  </span>
                 </motion.div>
               </motion.div>
             </div>
@@ -163,7 +198,7 @@ const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 hidden md:block"
       >
         <motion.div
           animate={{ y: [0, 10, 0] }}

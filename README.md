@@ -1,73 +1,114 @@
-# Welcome to your Lovable project
+# Toca Geek Launchpad
 
-## Project info
+Site institucional da Toca Geek - Landing page moderna e responsiva para apresentação dos serviços de impressão 3D.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Sobre o Projeto
 
-## How can I edit this code?
+Este é o site institucional da Toca Geek, desenvolvido para apresentar os serviços de impressão 3D, incluindo:
 
-There are several ways of editing your application.
+- Figuras e colecionáveis personalizados
+- Props de cosplay
+- Peças de engenharia e protótipos
+- Comunicação visual e displays
 
-**Use Lovable**
+## Tecnologias
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Este projeto foi construído com:
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Vite** - Build tool e dev server
+- **TypeScript** - Tipagem estática
+- **React 18** - Biblioteca UI
+- **shadcn-ui** - Componentes UI
+- **Tailwind CSS** - Estilização
+- **Framer Motion** - Animações
+- **React Router** - Roteamento
 
-**Use your preferred IDE**
+## Instalação
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Pré-requisitos
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js 18+ e npm (ou yarn/pnpm)
 
-Follow these steps:
+### Setup Local
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+# 1. Clone o repositório
+git clone <repository-url>
+cd toca-geek-launchpad
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# 2. Instale as dependências
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 3. Inicie o servidor de desenvolvimento
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+O site estará disponível em `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Scripts Disponíveis
 
-**Use GitHub Codespaces**
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Gera build de produção
+- `npm run build:dev` - Gera build de desenvolvimento
+- `npm run preview` - Preview do build de produção
+- `npm run lint` - Executa o linter
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Estrutura do Projeto
 
-## What technologies are used for this project?
+```
+toca-geek-launchpad/
+├── src/
+│   ├── components/      # Componentes React
+│   │   ├── ui/         # Componentes shadcn-ui
+│   │   ├── Hero.tsx    # Seção hero
+│   │   ├── Services.tsx # Seção de serviços
+│   │   ├── Gallery.tsx  # Galeria de projetos
+│   │   ├── Stats.tsx    # Estatísticas
+│   │   ├── QuoteCalculator.tsx # Calculadora de orçamento
+│   │   ├── Navbar.tsx   # Navegação
+│   │   └── Footer.tsx   # Rodapé
+│   ├── pages/          # Páginas
+│   ├── assets/         # Imagens e recursos
+│   ├── lib/            # Utilitários
+│   └── App.tsx         # Componente principal
+├── public/             # Arquivos estáticos
+└── package.json        # Dependências
+```
 
-This project is built with:
+## Deploy
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+O projeto pode ser deployado em qualquer plataforma que suporte aplicações Vite/React:
 
-## How can I deploy this project?
+- **Vercel** (recomendado)
+- **Netlify**
+- **GitHub Pages**
+- **Cloudflare Pages**
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### Deploy na Vercel
 
-## Can I connect a custom domain to my Lovable project?
+```bash
+# Instale a CLI da Vercel
+npm i -g vercel
 
-Yes, you can!
+# Faça o deploy
+vercel
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Personalização
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+### Cores e Tema
+
+As cores podem ser personalizadas em `src/index.css` através das variáveis CSS:
+
+- `--primary`: Cor primária (roxo)
+- `--secondary`: Cor secundária (azul)
+- `--background`: Cor de fundo
+- `--foreground`: Cor do texto
+
+### Conteúdo
+
+Os textos e informações podem ser atualizados diretamente nos componentes em `src/components/`.
+
+## Licença
+
+[Adicione sua licença aqui]

@@ -7,24 +7,29 @@ type Material = "resin" | "pla";
 type Size = "small" | "medium" | "large";
 
 const materialInfo = {
-  resin: { name: "Resin", basePrice: 25, description: "Ultra-detail, smooth finish" },
-  pla: { name: "PLA", basePrice: 15, description: "Durable, eco-friendly" },
+  resin: {
+    name: "Resina",
+    basePrice: 25,
+    description: "Ultra-detalhe, acabamento suave",
+  },
+  pla: { name: "PLA", basePrice: 15, description: "Resistente e ecológico" },
 };
 
 const sizeInfo = {
-  small: { name: "Small", multiplier: 1, size: "Up to 10cm" },
-  medium: { name: "Medium", multiplier: 2.5, size: "10-20cm" },
-  large: { name: "Large", multiplier: 5, size: "20cm+" },
+  small: { name: "Pequeno", multiplier: 1, size: "Até 10cm" },
+  medium: { name: "Médio", multiplier: 2.5, size: "10-20cm" },
+  large: { name: "Grande", multiplier: 5, size: "20cm+" },
 };
 
 const QuoteCalculator = () => {
   const [material, setMaterial] = useState<Material>("resin");
   const [size, setSize] = useState<Size>("small");
 
-  const estimatedPrice = materialInfo[material].basePrice * sizeInfo[size].multiplier;
+  const estimatedPrice =
+    materialInfo[material].basePrice * sizeInfo[size].multiplier;
 
   return (
-    <section className="py-24 px-6 relative overflow-hidden">
+    <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/10 to-background" />
 
@@ -34,45 +39,49 @@ const QuoteCalculator = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="glass-card-hover p-8 md:p-12 rounded-3xl"
+          className="glass-card-hover p-6 sm:p-8 md:p-12 rounded-2xl sm:rounded-3xl"
         >
           {/* Header */}
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 mb-4">
-              <Calculator className="w-5 h-5 text-primary" />
-              <span className="text-sm font-medium text-primary">Quick Estimate</span>
+          <div className="text-center mb-6 sm:mb-8 md:mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/10 mb-3 sm:mb-4">
+              <Calculator className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+              <span className="text-xs sm:text-sm font-medium text-primary">
+                Estimativa Rápida
+              </span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-2">
-              Get a <span className="gradient-text">Price Estimate</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+              Solicite um <span className="gradient-text">Orçamento</span>
             </h2>
-            <p className="text-muted-foreground">
-              Select your preferences for an instant starting price range.
+            <p className="text-muted-foreground text-sm sm:text-base">
+              Selecione suas preferências para uma estimativa inicial de preço.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
             {/* Options */}
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Material Selection */}
               <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-3">
-                  <Layers className="w-4 h-4" />
-                  Material Type
+                <label className="flex items-center gap-2 text-xs sm:text-sm font-medium text-muted-foreground mb-2 sm:mb-3">
+                  <Layers className="w-3 h-3 sm:w-4 sm:h-4" />
+                  Tipo de Material
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3">
                   {(Object.keys(materialInfo) as Material[]).map((mat) => (
                     <motion.button
                       key={mat}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setMaterial(mat)}
-                      className={`p-4 rounded-xl border-2 transition-all duration-300 text-left ${
+                      className={`p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 transition-all duration-300 text-left ${
                         material === mat
                           ? "border-primary bg-primary/10 shadow-glow"
                           : "border-border bg-muted/50 hover:border-muted-foreground/50"
                       }`}
                     >
-                      <div className="font-semibold text-foreground">{materialInfo[mat].name}</div>
+                      <div className="font-semibold text-foreground text-sm sm:text-base">
+                        {materialInfo[mat].name}
+                      </div>
                       <div className="text-xs text-muted-foreground mt-1">
                         {materialInfo[mat].description}
                       </div>
@@ -83,24 +92,26 @@ const QuoteCalculator = () => {
 
               {/* Size Selection */}
               <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-3">
-                  <Maximize className="w-4 h-4" />
-                  Print Size
+                <label className="flex items-center gap-2 text-xs sm:text-sm font-medium text-muted-foreground mb-2 sm:mb-3">
+                  <Maximize className="w-3 h-3 sm:w-4 sm:h-4" />
+                  Tamanho da Impressão
                 </label>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
                   {(Object.keys(sizeInfo) as Size[]).map((sz) => (
                     <motion.button
                       key={sz}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setSize(sz)}
-                      className={`p-3 rounded-xl border-2 transition-all duration-300 text-center ${
+                      className={`p-2.5 sm:p-3 rounded-lg sm:rounded-xl border-2 transition-all duration-300 text-center ${
                         size === sz
                           ? "border-primary bg-primary/10 shadow-glow"
                           : "border-border bg-muted/50 hover:border-muted-foreground/50"
                       }`}
                     >
-                      <div className="font-semibold text-foreground text-sm">{sizeInfo[sz].name}</div>
+                      <div className="font-semibold text-foreground text-xs sm:text-sm">
+                        {sizeInfo[sz].name}
+                      </div>
                       <div className="text-xs text-muted-foreground mt-0.5">
                         {sizeInfo[sz].size}
                       </div>
@@ -111,26 +122,30 @@ const QuoteCalculator = () => {
             </div>
 
             {/* Result */}
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center mt-6 md:mt-0">
               <motion.div
                 key={`${material}-${size}`}
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="text-center p-8 rounded-2xl bg-gradient-to-br from-primary/5 to-secondary/5 border border-primary/20"
+                className="text-center p-6 sm:p-8 rounded-xl sm:rounded-2xl bg-gradient-to-br from-primary/5 to-secondary/5 border border-primary/20"
               >
-                <p className="text-sm text-muted-foreground mb-2">Estimated Starting Price</p>
-                <div className="text-5xl md:text-6xl font-bold gradient-text mb-4">
+                <p className="text-xs sm:text-sm text-muted-foreground mb-2">
+                  Preço Estimado Inicial
+                </p>
+                <div className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-3 sm:mb-4">
                   R${estimatedPrice}
-                  <span className="text-lg text-muted-foreground font-normal">+</span>
+                  <span className="text-base sm:text-lg text-muted-foreground font-normal">
+                    +
+                  </span>
                 </div>
-                <p className="text-xs text-muted-foreground mb-6">
-                  Final price varies based on complexity and detail level
+                <p className="text-xs text-muted-foreground mb-4 sm:mb-6">
+                  Preço final varia conforme complexidade e nível de detalhe
                 </p>
 
-                <Button size="lg" className="w-full group">
-                  <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                  Get Full Quote via WhatsApp
+                <Button size="lg" className="w-full group text-sm sm:text-base">
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:scale-110 transition-transform" />
+                  Solicitar Orçamento via WhatsApp
                 </Button>
               </motion.div>
             </div>

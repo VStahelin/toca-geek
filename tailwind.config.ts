@@ -2,7 +2,12 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -14,7 +19,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        outfit: ['Outfit', 'sans-serif'],
+        outfit: ["Outfit", "sans-serif"],
+        orbitron: ["Orbitron", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -65,16 +71,17 @@ export default {
         },
       },
       backgroundImage: {
-        'gradient-primary': 'var(--gradient-primary)',
-        'gradient-primary-reverse': 'var(--gradient-primary-reverse)',
-        'gradient-glow': 'var(--gradient-glow)',
+        "gradient-primary": "var(--gradient-primary)",
+        "gradient-primary-reverse": "var(--gradient-primary-reverse)",
+        "gradient-glow": "var(--gradient-glow)",
       },
       boxShadow: {
-        'glow': 'var(--glow-combined)',
-        'glow-intense': '0 0 60px hsl(270, 56%, 48%, 0.5), 0 0 120px hsl(204, 70%, 45%, 0.3)',
-        'glow-purple': 'var(--glow-purple)',
-        'glow-blue': 'var(--glow-blue)',
-        'neon': '0 0 5px hsl(270, 56%, 48%), 0 0 20px hsl(270, 56%, 48%, 0.5), 0 0 40px hsl(204, 70%, 45%, 0.3)',
+        glow: "var(--glow-combined)",
+        "glow-intense":
+          "0 0 60px hsl(270, 56%, 48%, 0.5), 0 0 120px hsl(204, 70%, 45%, 0.3)",
+        "glow-purple": "var(--glow-purple)",
+        "glow-blue": "var(--glow-blue)",
+        neon: "0 0 5px hsl(270, 56%, 48%), 0 0 20px hsl(270, 56%, 48%, 0.5), 0 0 40px hsl(204, 70%, 45%, 0.3)",
       },
       borderRadius: {
         lg: "var(--radius)",
