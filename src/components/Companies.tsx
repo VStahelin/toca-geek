@@ -219,7 +219,7 @@ const Companies = () => {
                     >
                       <div
                         className={cn(
-                          "h-[240px] w-full border-2 border-primary/30 bg-card/40 backdrop-blur-md",
+                          "min-h-[280px] w-full border-2 border-primary/30 bg-card/40 backdrop-blur-md",
                           "p-4 transition-all duration-300 rounded-xl",
                           "relative overflow-hidden",
                           "flex flex-col"
@@ -247,19 +247,23 @@ const Companies = () => {
                           </div>
 
                           {/* Company Name */}
-                          <h3 className="text-sm font-bold text-foreground line-clamp-2 h-10 flex items-center justify-center">
+                          <h3 className="text-sm font-bold text-foreground line-clamp-2 min-h-[2.5rem] flex items-center justify-center px-2">
                             {empresa.name}
                           </h3>
 
                           {/* Description */}
-                          {empresa.short_description && (
-                            <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed flex-1 min-h-[2rem]">
-                              {empresa.short_description}
-                            </p>
-                          )}
+                          <div className="flex-1 flex items-start justify-center min-h-[3rem] w-full px-2">
+                            {empresa.short_description ? (
+                              <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
+                                {empresa.short_description}
+                              </p>
+                            ) : (
+                              <div className="min-h-[3rem]" />
+                            )}
+                          </div>
 
                           {/* External Link Icon */}
-                          <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground flex-shrink-0">
+                          <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground flex-shrink-0 mt-auto">
                             <span>Visitar site</span>
                             <ExternalLink className="w-3.5 h-3.5" />
                           </div>
@@ -311,7 +315,7 @@ const Companies = () => {
                         >
                           <div
                             className={cn(
-                              "h-[240px] w-full max-w-[280px] mx-auto border-2 border-primary/30 bg-card/40 backdrop-blur-md",
+                              "min-h-[280px] w-full max-w-[280px] mx-auto border-2 border-primary/30 bg-card/40 backdrop-blur-md",
                               "p-4 sm:p-5 transition-all duration-300 rounded-xl",
                               "md:hover:border-primary/80 md:hover:shadow-neon",
                               "md:hover:bg-card/60 relative overflow-visible",
@@ -344,19 +348,23 @@ const Companies = () => {
                               </div>
 
                               {/* Company Name */}
-                              <h3 className="text-sm sm:text-base font-bold text-foreground md:group-hover:text-primary transition-colors line-clamp-2 h-10 flex items-center justify-center">
+                              <h3 className="text-sm sm:text-base font-bold text-foreground md:group-hover:text-primary transition-colors line-clamp-2 min-h-[2.5rem] flex items-center justify-center px-2">
                                 {empresa.name}
                               </h3>
 
                               {/* Description */}
-                              {empresa.short_description && (
-                                <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed flex-1 min-h-[2rem]">
-                                  {empresa.short_description}
-                                </p>
-                              )}
+                              <div className="flex-1 flex items-start justify-center min-h-[3rem] w-full px-2">
+                                {empresa.short_description ? (
+                                  <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
+                                    {empresa.short_description}
+                                  </p>
+                                ) : (
+                                  <div className="min-h-[3rem]" />
+                                )}
+                              </div>
 
                               {/* External Link Icon */}
-                              <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground md:group-hover:text-primary transition-colors flex-shrink-0">
+                              <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground md:group-hover:text-primary transition-colors flex-shrink-0 mt-auto">
                                 <span>Visitar site</span>
                                 <ExternalLink className="w-3.5 h-3.5 transform md:group-hover:translate-x-0.5 md:group-hover:-translate-y-0.5 transition-transform" />
                               </div>

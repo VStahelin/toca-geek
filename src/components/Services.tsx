@@ -86,8 +86,7 @@ const Services = () => {
             O Que <span className="gradient-text">Criamos</span>
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto px-2 sm:px-0">
-            De miniaturas de bolso a props em tamanho real. Cada impressão conta
-            uma história.
+            De miniaturas de bolso a props em tamanho real. Atendemos desde projetos únicos até grandes quantidades B2B. Cada impressão conta uma história.
           </p>
         </motion.div>
 

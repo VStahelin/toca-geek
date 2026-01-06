@@ -2,8 +2,12 @@ import { motion } from "framer-motion";
 import { Rocket, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useFooter } from "@/hooks/useFooter";
 import heroFigure from "@/assets/hero-figure.png";
 const Hero = () => {
+  const { data: footerData } = useFooter();
+  const instagramUrl = footerData?.social?.instagram || "#";
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden mesh-gradient grid-pattern pt-20 md:pt-0">
       {/* Animated background orbs */}
@@ -78,8 +82,9 @@ const Hero = () => {
               transition={{ delay: 0.4, duration: 0.6 }}
               className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-6 md:mb-8 leading-relaxed px-2 sm:px-0"
             >
-              De miniaturas personalizadas a protótipos industriais. Se você
-              pode imaginar,{" "}
+              De miniaturas personalizadas a protótipos industriais. Atendemos
+              desde projetos únicos até grandes quantidades B2B. Se você pode
+              imaginar,{" "}
               <span className="text-foreground font-medium">
                 a Toca Geek imprime.
               </span>
@@ -92,9 +97,15 @@ const Hero = () => {
               transition={{ delay: 0.6, duration: 0.5 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <Button size="lg" className="group">
-                <Rocket className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
-                Entrar em Contato
+              <Button size="lg" className="group" asChild>
+                <a
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Rocket className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+                  Entrar em Contato
+                </a>
               </Button>
               <Button variant="outline" size="lg" asChild>
                 <Link to="/galeria">Ver Galeria</Link>
