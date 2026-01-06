@@ -1,43 +1,16 @@
 import { motion } from "framer-motion";
 import { Gamepad2, Sword, Cog, Shapes } from "lucide-react";
-import serviceCollectibles from "@/assets/service-collectibles.png";
-import galleryHelmet from "@/assets/gallery-helmet.png";
+import { useServicos } from "@/hooks/useServicos";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { Servico } from "@/lib/api/types";
 
-const services = [
-  {
-    id: 1,
-    title: "Colecionáveis & Figuras",
-    description:
-      "Estatuetas de anime, personagens de jogos e figuras personalizadas com acabamento de qualidade museu.",
-    icon: Gamepad2,
-    size: "large",
-    image: serviceCollectibles,
-  },
-  {
-    id: 2,
-    title: "Props de Cosplay",
-    description:
-      "Capacetes, armas, peças de armadura. Dê vida aos seus personagens favoritos.",
-    icon: Sword,
-    size: "medium",
-    image: galleryHelmet,
-  },
-  {
-    id: 3,
-    title: "Peças de Engenharia",
-    description:
-      "Protótipos de precisão e componentes funcionais para seus projetos.",
-    icon: Cog,
-    size: "medium",
-  },
-  {
-    id: 4,
-    title: "Comunicação Visual",
-    description: "Logos 3D, placas e displays para marca.",
-    icon: Shapes,
-    size: "small",
-  },
-];
+// Mapeamento de ícones
+const iconMap: Record<string, typeof Gamepad2> = {
+  gamepad: Gamepad2,
+  sword: Sword,
+  gear: Cog,
+  cube: Shapes,
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -59,6 +32,47 @@ const itemVariants = {
 };
 
 const Services = () => {
+  const { data: servicos, isLoading, error } = useServicos();
+
+  // Se estiver carregando, mostra skeleton
+  if (isLoading) {
+    return (
+      <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute inset-0 mesh-gradient opacity-50" />
+        <div className="container mx-auto relative z-10">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <Skeleton className="h-12 w-64 mx-auto mb-4" />
+            <Skeleton className="h-6 w-96 mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} className="h-48 rounded-2xl" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Se houver erro, mostra mensagem
+  if (error || !servicos) {
+    return (
+      <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute inset-0 mesh-gradient opacity-50" />
+        <div className="container mx-auto relative z-10 text-center">
+          <p className="text-destructive">Erro ao carregar serviços. Tente novamente mais tarde.</p>
+        </div>
+      </section>
+    );
+  }
+
+  // Determina o tamanho baseado na ordem (primeiro é grande, outros médios/pequenos)
+  const getSizeClasses = (index: number, total: number) => {
+    if (index === 0) return "md:col-span-2 md:row-span-2";
+    if (index === 1 || index === 2) return "lg:row-span-2";
+    return "";
+  };
+
   return (
     <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative overflow-hidden">
       {/* Background gradient */}
@@ -90,28 +104,34 @@ const Services = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 auto-rows-[160px] sm:auto-rows-[180px]"
         >
-          {services.map((service) => {
-            const Icon = service.icon;
-            const sizeClasses =
-              service.size === "large"
-                ? "md:col-span-2 md:row-span-2"
-                : service.size === "medium"
-                ? "lg:row-span-2"
-                : "";
+          {servicos.map((service: Servico, index: number) => {
+            const Icon = iconMap[service.icon] || Gamepad2;
+            const sizeClasses = getSizeClasses(index, servicos.length);
 
             return (
               <motion.div
                 key={service.id}
                 variants={itemVariants}
-                className={`group relative glass-card-hover p-4 sm:p-6 flex flex-col justify-between cursor-pointer overflow-hidden ${sizeClasses}`}
+                className={`group relative glass-card-hover p-4 sm:p-6 flex flex-col justify-between cursor-pointer overflow-hidden ${sizeClasses} ${
+                  service.is_coming_soon ? "opacity-75" : ""
+                }`}
               >
-                {/* Background image for cards with images */}
+                {/* Faixa "Em Breve" */}
+                {service.is_coming_soon && (
+                  <div className="absolute top-0 right-0 bg-gradient-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-bl-lg z-20">
+                    Em Breve
+                  </div>
+                )}
+
+                {/* Background image/gif for cards with images */}
                 {service.image && (
                   <div className="absolute inset-0">
                     <img 
                       src={service.image} 
                       alt={service.title}
                       className="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+                      loading={service.image.endsWith('.gif') ? 'eager' : 'lazy'}
+                      decoding={service.image.endsWith('.gif') ? 'auto' : 'async'}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
                   </div>
@@ -136,10 +156,12 @@ const Services = () => {
                 </div>
 
                 {/* Hover arrow */}
-                <div className="relative z-10 flex items-center text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-0 group-hover:translate-x-2">
-                  <span className="text-sm font-medium mr-2">Explorar</span>
-                  <span>→</span>
-                </div>
+                {!service.is_coming_soon && (
+                  <div className="relative z-10 flex items-center text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-0 group-hover:translate-x-2">
+                    <span className="text-sm font-medium mr-2">Explorar</span>
+                    <span>→</span>
+                  </div>
+                )}
 
                 {/* Corner accent */}
                 <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden rounded-tr-2xl">
