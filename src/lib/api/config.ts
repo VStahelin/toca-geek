@@ -24,4 +24,7 @@ export const API_ENDPOINTS = {
   GALERIA: "/data/galeria.json",
   SITE_MAP: "/data/site_map.json",
   FOOTER: "/data/footer.json",
+  SERVICOS: "/data/servicos.json",
+  EMPRESAS: "/data/empresas.json",
+  FAQ: "/data/faq.json",
 } as const;

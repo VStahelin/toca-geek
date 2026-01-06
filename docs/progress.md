@@ -14,6 +14,16 @@
 - [x] Componente ProjectCard com todas as informações
 - [x] Filtros por categoria na galeria
 - [x] Roteamento configurado
+- [x] Estrutura JSON para serviços com ordenação e status "em breve"
+- [x] Componente Services dinâmico com dados do JSON
+- [x] Footer dinâmico via JSON
+- [x] Configuração de deploy para GitHub Pages
+- [x] Workflows de lint e deploy
+- [x] Seção "Empresas que confiaram" na home
+- [x] JSON de empresas/clientes com short_description e long_description
+- [x] Componente Companies para showcase de empresas
+- [x] Página completa de serviços (`/servicos`)
+- [x] Seção de projetos em destaque na galeria
 
 ## 📋 Planejado
 
@@ -23,15 +33,25 @@
 - [x] Card de projeto detalhado
 - [x] Filtros por categoria
 - [x] Link para Instagram em cada projeto
+- [x] Seção de projetos em destaque (com `is_highlighted` no JSON)
 
-### Fase 2: Melhorias
-- [ ] Modal de visualização de imagens
-- [ ] Zoom em imagens
-- [ ] Compartilhamento de projetos
-- [ ] Busca de projetos
+### Fase 2: Serviços e Empresas
+- [x] JSON de empresas/clientes
+- [x] Componente de showcase de empresas
+- [x] Pasta `images/empresas/` no statics
+- [x] Seção "Empresas que confiaram" na home (card apenas)
+- [x] Criar rota `/servicos` (página completa de serviços)
+- [ ] Criar rota `/empresas` (página completa de empresas/clientes) - **Futuro**
 
-### Fase 3: Otimizações
-- [ ] Lazy loading de imagens
+### Fase 3: Melhorias
+- [x] Busca de projetos (título, descrição, tags, categoria)
+- [x] Ajustar roteamento para usar hash routing (#) para compatibilidade com páginas estáticas
+- [x] Modal de visualização de imagens
+- [x] Zoom em imagens
+- [x] Compartilhamento de projetos
+
+### Fase 4: Otimizações
+- [x] Lazy loading de imagens (loading="lazy" e decoding="async")
 - [ ] Otimização de performance
 - [ ] SEO improvements
 - [ ] Analytics
@@ -49,12 +69,21 @@
 - Criados componentes ProjectCard e ProjectImageCarousel
 - Implementados filtros por categoria
 - Documentação completa (guidelines de URL e UI/UX)
+- Implementado HashRouter para compatibilidade com GitHub Pages
+- Adicionada busca de projetos na galeria (título, descrição, tags, categoria)
+- Implementado lazy loading e decoding async em todas as imagens
+- Implementada seção de projetos em destaque na galeria (usando `is_highlighted` do JSON)
+- Implementado modal de visualização de imagens com zoom e navegação
+- Adicionado suporte para zoom em imagens (scroll, botões, drag quando zoom > 1)
+- Implementado compartilhamento de projetos (Web Share API + fallback para copiar link)
+- Adicionado suporte para abrir modal via URL com parâmetro `?project=id`
 
 ### Próximas Alterações
 - Adicionar mais imagens aos projetos existentes
-- Implementar modal de visualização de imagens
-- Adicionar busca de projetos
-- Otimizar performance (lazy loading)
+- Otimizar performance adicional
+- SEO improvements
+- Analytics
+- Criar página completa de empresas (`/empresas`) - Futuro
 
 ## 📝 Notas
 

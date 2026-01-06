@@ -37,11 +37,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
                 {project.category}
               </Badge>
             </div>
-            {project.is_highlighted && (
-              <Badge variant="default" className="shrink-0">
-                Destaque
-              </Badge>
-            )}
+            {/* Badge de destaque removido daqui - agora é exibido na seção de destaques */}
           </div>
 
           {/* Descrição */}

@@ -156,12 +156,14 @@ const Servicos = () => {
                   </div>
 
                   {/* Hover arrow */}
+                  {/* Comentado temporariamente
                   {!servico.is_coming_soon && (
                     <div className="relative z-10 flex items-center text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-0 group-hover:translate-x-2 mt-4">
                       <span className="text-sm font-medium mr-2">Saiba Mais</span>
                       <span>→</span>
                     </div>
                   )}
+                  */}
 
                   {/* Corner accent */}
                   <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden rounded-tr-2xl">

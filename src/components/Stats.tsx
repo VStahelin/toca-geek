@@ -34,7 +34,7 @@ const stats = [
 
 const Stats = () => {
   return (
-    <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative overflow-hidden">
+    <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative overflow-hidden z-10">
       {/* Background */}
       <div className="absolute inset-0 mesh-gradient opacity-30" />
 

@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { useProjetosDestaque } from "@/hooks/useGaleria";
+import { useGaleria } from "@/hooks/useGaleria";
 import { Button } from "@/components/ui/button";
 import type { GaleriaProject } from "@/lib/api/types";
 
 const Gallery = () => {
-  // Na home, mostramos apenas projetos destacados como preview
-  const { data: projetosDestaque, isLoading, error } = useProjetosDestaque();
+  // Na home, mostramos todos os projetos
+  const { data: galeria, isLoading, error } = useGaleria();
 
   // Se estiver carregando, mostra estado de loading
   if (isLoading) {
@@ -34,12 +34,12 @@ const Gallery = () => {
   }
 
   // Se não houver dados, retorna vazio
-  if (!projetosDestaque || projetosDestaque.length === 0) {
+  if (!galeria || galeria.length === 0) {
     return null;
   }
 
   // Transforma os dados da API para o formato esperado pelo componente
-  const galleryImages = projetosDestaque.map((projeto: GaleriaProject) => ({
+  const galleryImages = galeria.map((projeto: GaleriaProject) => ({
     id: projeto.id,
     title: projeto.title,
     category: projeto.category,
@@ -127,42 +127,44 @@ interface GalleryCardProps {
 const GalleryCard = ({ image }: GalleryCardProps) => {
   return (
     <Link to="/galeria">
-      <motion.div
-        whileHover={{
-          scale: 1.05,
-          rotateY: 5,
-          rotateX: -5,
-          z: 50,
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="relative flex-shrink-0 w-56 h-36 sm:w-64 sm:h-44 md:w-72 md:h-48 rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer group"
-        style={{ perspective: "1000px" }}
-      >
-        {/* Actual image */}
-        <img
-          src={image.image}
-          alt={image.title}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+    <motion.div
+      whileHover={{
+        scale: 1.05,
+        rotateY: 5,
+        rotateX: -5,
+        z: 50,
+      }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="relative flex-shrink-0 w-56 h-36 sm:w-64 sm:h-44 md:w-72 md:h-48 rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer group"
+      style={{ perspective: "1000px" }}
+    >
+      {/* Actual image */}
+      <img
+        src={image.image}
+        alt={image.title}
+          loading="lazy"
+          decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
 
-        {/* Content */}
-        <div className="absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4 bg-gradient-to-t from-background/90 via-background/30 to-transparent">
-          <span className="text-xs font-medium text-primary mb-0.5 sm:mb-1">
-            {image.category}
-          </span>
-          <h3 className="text-sm sm:text-base md:text-lg font-bold text-foreground">
-            {image.title}
-          </h3>
-        </div>
+      {/* Content */}
+      <div className="absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4 bg-gradient-to-t from-background/90 via-background/30 to-transparent">
+        <span className="text-xs font-medium text-primary mb-0.5 sm:mb-1">
+          {image.category}
+        </span>
+        <h3 className="text-sm sm:text-base md:text-lg font-bold text-foreground">
+          {image.title}
+        </h3>
+      </div>
 
-        {/* Hover glow effect */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl ring-2 ring-primary/50" />
+      {/* Hover glow effect */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl ring-2 ring-primary/50" />
 
-        {/* Shine effect on hover */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-        </div>
-      </motion.div>
+      {/* Shine effect on hover */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+      </div>
+    </motion.div>
     </Link>
   );
 };

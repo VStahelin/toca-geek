@@ -60,18 +60,13 @@ const Services = () => {
       <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative overflow-hidden">
         <div className="absolute inset-0 mesh-gradient opacity-50" />
         <div className="container mx-auto relative z-10 text-center">
-          <p className="text-destructive">Erro ao carregar serviços. Tente novamente mais tarde.</p>
+          <p className="text-destructive">
+            Erro ao carregar serviços. Tente novamente mais tarde.
+          </p>
         </div>
       </section>
     );
   }
-
-  // Determina o tamanho baseado na ordem (primeiro é grande, outros médios/pequenos)
-  const getSizeClasses = (index: number, total: number) => {
-    if (index === 0) return "md:col-span-2 md:row-span-2";
-    if (index === 1 || index === 2) return "lg:row-span-2";
-    return "";
-  };
 
   return (
     <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative overflow-hidden">
@@ -96,23 +91,22 @@ const Services = () => {
           </p>
         </motion.div>
 
-        {/* Bento Grid */}
+        {/* Grid de Serviços */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 auto-rows-[160px] sm:auto-rows-[180px]"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6"
         >
           {servicos.map((service: Servico, index: number) => {
             const Icon = iconMap[service.icon] || Gamepad2;
-            const sizeClasses = getSizeClasses(index, servicos.length);
 
             return (
               <motion.div
                 key={service.id}
                 variants={itemVariants}
-                className={`group relative glass-card-hover p-4 sm:p-6 flex flex-col justify-between cursor-pointer overflow-hidden ${sizeClasses} ${
+                className={`group relative glass-card-hover p-4 sm:p-6 flex flex-col justify-between cursor-pointer overflow-hidden h-full min-h-[240px] ${
                   service.is_coming_soon ? "opacity-75" : ""
                 }`}
               >
@@ -122,7 +116,7 @@ const Services = () => {
                     Em Breve
                   </div>
                 )}
-                
+
                 {/* Badge Premium */}
                 {service.is_premium && !service.is_coming_soon && (
                   <div className="absolute top-0 right-0 bg-gradient-to-r from-yellow-500 to-amber-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg z-20 shadow-lg">
@@ -133,12 +127,16 @@ const Services = () => {
                 {/* Background image/gif for cards with images */}
                 {service.image && (
                   <div className="absolute inset-0">
-                    <img 
-                      src={service.image} 
+                    <img
+                      src={service.image}
                       alt={service.title}
                       className="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500"
-                      loading={service.image.endsWith('.gif') ? 'eager' : 'lazy'}
-                      decoding={service.image.endsWith('.gif') ? 'auto' : 'async'}
+                      loading={
+                        service.image.endsWith(".gif") ? "eager" : "lazy"
+                      }
+                      decoding={
+                        service.image.endsWith(".gif") ? "auto" : "async"
+                      }
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
                   </div>
@@ -163,12 +161,14 @@ const Services = () => {
                 </div>
 
                 {/* Hover arrow */}
+                {/* Comentado temporariamente
                 {!service.is_coming_soon && (
                   <div className="relative z-10 flex items-center text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-0 group-hover:translate-x-2">
                     <span className="text-sm font-medium mr-2">Explorar</span>
                     <span>→</span>
                   </div>
                 )}
+                */}
 
                 {/* Corner accent */}
                 <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden rounded-tr-2xl">

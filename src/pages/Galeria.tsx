@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ProjectCard } from "@/components/ProjectCard";
+import { ImageModal } from "@/components/ImageModal";
 import { useGaleria } from "@/hooks/useGaleria";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +14,10 @@ import type { GaleriaProject } from "@/lib/api/types";
 const Galeria = () => {
   const { data: galeria, isLoading, error } = useGaleria();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [modalProject, setModalProject] = useState<GaleriaProject | null>(null);
+  const [modalImageIndex, setModalImageIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Extrai categorias únicas
   const categories = useMemo(() => {
@@ -22,14 +28,56 @@ const Galeria = () => {
     return uniqueCategories;
   }, [galeria]);
 
-  // Filtra projetos por categoria
-  const filteredProjects = useMemo(() => {
-    if (!galeria) return [];
-    if (!selectedCategory) return galeria;
-    return galeria.filter(
-      (p: GaleriaProject) => p.category === selectedCategory
+  // Separa projetos em destaque e normais
+  const { highlightedProjects, regularProjects } = useMemo(() => {
+    if (!galeria) return { highlightedProjects: [], regularProjects: [] };
+
+    let filtered = galeria;
+
+    // Filtro por categoria
+    if (selectedCategory) {
+      filtered = filtered.filter(
+        (p: GaleriaProject) => p.category === selectedCategory
+      );
+    }
+
+    // Separa em destacados e normais
+    const highlighted = filtered.filter(
+      (p: GaleriaProject) => p.is_highlighted
     );
+    const regular = filtered.filter((p: GaleriaProject) => !p.is_highlighted);
+
+    return { highlightedProjects: highlighted, regularProjects: regular };
   }, [galeria, selectedCategory]);
+
+  // Projetos filtrados (todos juntos para contagem)
+  const filteredProjects = useMemo(() => {
+    return [...highlightedProjects, ...regularProjects];
+  }, [highlightedProjects, regularProjects]);
+
+  // Abre modal se houver parâmetro na URL
+  useEffect(() => {
+    if (!galeria || isLoading) return;
+
+    const projectId = searchParams.get("project");
+    if (projectId) {
+      const project = galeria.find(
+        (p: GaleriaProject) => p.id === parseInt(projectId)
+      );
+      if (project) {
+        setModalProject(project);
+        setModalImageIndex(0);
+        setIsModalOpen(true);
+        // Remove o parâmetro da URL após abrir
+        setSearchParams({}, { replace: true });
+      }
+    }
+  }, [galeria, isLoading, searchParams, setSearchParams]);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setModalProject(null);
+  };
 
   if (isLoading) {
     return (
@@ -129,44 +177,129 @@ const Galeria = () => {
         </div>
       </section>
 
-      {/* Grid de Projetos */}
-      <section className="py-8 sm:py-12">
-        <div className="container mx-auto px-4 sm:px-6">
-          {filteredProjects.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">
-                Nenhum projeto encontrado nesta categoria.
+      {/* Seção de Projetos em Destaque */}
+      {highlightedProjects.length > 0 && (
+        <section className="py-8 sm:py-12 relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
+          <div className="container mx-auto px-4 sm:px-6 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-8"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-1 w-12 bg-gradient-primary rounded-full" />
+                <h2 className="text-2xl sm:text-3xl font-bold">
+                  Projetos em <span className="gradient-text">Destaque</span>
+                </h2>
+                <div className="h-1 flex-1 bg-gradient-primary rounded-full" />
+              </div>
+              <p className="text-muted-foreground text-sm sm:text-base">
+                Nossos trabalhos mais especiais e representativos
               </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-6">
-              {filteredProjects.map(
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {highlightedProjects.map(
                 (project: GaleriaProject, index: number) => (
-                  <ProjectCard
+                  <motion.div
                     key={project.id}
-                    project={project}
-                    index={index}
-                  />
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="relative"
+                  >
+                    {/* Badge de destaque no card */}
+                    <div className="absolute top-4 right-4 z-20">
+                      <Badge className="bg-gradient-primary text-primary-foreground shadow-lg">
+                        ⭐ Destaque
+                      </Badge>
+                    </div>
+                    <ProjectCard project={project} index={index} />
+                  </motion.div>
                 )
               )}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Grid de Projetos */}
+      <section className="py-8 sm:py-12">
+        <div className="container mx-auto px-4 sm:px-6">
+          {/* Título da seção de todos os projetos (só aparece se houver destaques) */}
+          {highlightedProjects.length > 0 && regularProjects.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-8"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-1 w-12 bg-gradient-primary rounded-full" />
+                <h2 className="text-2xl sm:text-3xl font-bold">
+                  Todos os <span className="gradient-text">Projetos</span>
+                </h2>
+                <div className="h-1 flex-1 bg-gradient-primary rounded-full" />
+              </div>
+            </motion.div>
           )}
 
-          {/* Contador */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="mt-12 text-center"
-          >
-            <p className="text-muted-foreground">
-              Mostrando {filteredProjects.length} de {galeria.length} projetos
-            </p>
-          </motion.div>
+          {filteredProjects.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground text-lg mb-2">
+                Nenhum projeto encontrado nesta categoria.
+              </p>
+              {selectedCategory && (
+                <Button
+                  variant="outline"
+                  onClick={() => setSelectedCategory(null)}
+                  className="mt-4"
+                >
+                  Limpar filtro
+                </Button>
+              )}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-6">
+              {/* Se houver filtro de categoria, mostra todos juntos (destaques + regulares) */}
+              {selectedCategory
+                ? filteredProjects.map(
+                    (project: GaleriaProject, index: number) => (
+                      <ProjectCard
+                        key={project.id}
+                        project={project}
+                        index={index}
+                      />
+                    )
+                  )
+                : // Se não houver filtro, mostra apenas os regulares (destaques já foram mostrados acima)
+                  regularProjects.map(
+                    (project: GaleriaProject, index: number) => (
+                      <ProjectCard
+                        key={project.id}
+                        project={project}
+                        index={index}
+                      />
+                    )
+                  )}
+            </div>
+          )}
         </div>
       </section>
 
       <Footer />
+
+      {/* Modal de visualização de imagens (quando aberto via URL) */}
+      {modalProject && (
+        <ImageModal
+          project={modalProject}
+          initialImageIndex={modalImageIndex}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      )}
     </main>
   );
 };

@@ -8,3 +8,6 @@ export * from "./config";
 export * from "./types";
 export * from "./galeria.service";
 export * from "./footer.service";
+export * from "./servicos.service";
+export * from "./empresas.service";
+export * from "./faq.service";
