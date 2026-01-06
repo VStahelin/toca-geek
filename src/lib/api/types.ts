@@ -63,3 +63,36 @@ export interface FooterData {
   contact: FooterContact;
   social: FooterSocial;
 }
+
+export interface Servico {
+  id: number;
+  order: number;
+  title: string;
+  description: string;
+  icon: string;
+  image: string;
+  is_coming_soon: boolean;
+  is_premium?: boolean;
+}
+
+export type ServicosResponse = Servico[];
+
+export interface Empresa {
+  id: number;
+  name: string;
+  logo: string;
+  website: string;
+  short_description: string;
+  long_description: string;
+  order: number;
+}
+
+export type EmpresasResponse = Empresa[];
+
+export interface FAQ {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+export type FAQResponse = FAQ[];

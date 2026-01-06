@@ -122,6 +122,13 @@ const Services = () => {
                     Em Breve
                   </div>
                 )}
+                
+                {/* Badge Premium */}
+                {service.is_premium && !service.is_coming_soon && (
+                  <div className="absolute top-0 right-0 bg-gradient-to-r from-yellow-500 to-amber-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg z-20 shadow-lg">
+                    ⭐ Premium
+                  </div>
+                )}
 
                 {/* Background image/gif for cards with images */}
                 {service.image && (
