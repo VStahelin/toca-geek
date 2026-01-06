@@ -1,37 +1,54 @@
 import { motion } from "framer-motion";
-import galleryDragon from "@/assets/gallery-dragon.png";
-import galleryHelmet from "@/assets/gallery-helmet.png";
-import galleryMech from "@/assets/gallery-mech.png";
-import galleryLogo from "@/assets/gallery-logo.png";
-import heroFigure from "@/assets/hero-figure.png";
-
-const galleryImages = [
-  { id: 1, title: "Figura Anime", category: "Colecionável", image: heroFigure },
-  { id: 2, title: "Miniatura Dragão", category: "RPG", image: galleryDragon },
-  { id: 3, title: "Capacete Cosplay", category: "Props", image: galleryHelmet },
-  {
-    id: 4,
-    title: "Logo Personalizado",
-    category: "Visual",
-    image: galleryLogo,
-  },
-  {
-    id: 5,
-    title: "Estatueta Mech",
-    category: "Colecionável",
-    image: galleryMech,
-  },
-  { id: 6, title: "Miniaturas D&D", category: "RPG", image: galleryDragon },
-  { id: 7, title: "Prop Capacete", category: "Props", image: galleryHelmet },
-  {
-    id: 8,
-    title: "Display de Marca",
-    category: "Engenharia",
-    image: galleryLogo,
-  },
-];
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { useProjetosDestaque } from "@/hooks/useGaleria";
+import { Button } from "@/components/ui/button";
+import type { GaleriaProject } from "@/lib/api/types";
 
 const Gallery = () => {
+  // Na home, mostramos apenas projetos destacados como preview
+  const { data: projetosDestaque, isLoading, error } = useProjetosDestaque();
+
+  // Se estiver carregando, mostra estado de loading
+  if (isLoading) {
+    return (
+      <section className="py-12 sm:py-16 md:py-24 overflow-hidden relative">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-muted-foreground">Carregando galeria...</p>
+        </div>
+      </section>
+    );
+  }
+
+  // Se houver erro, mostra mensagem
+  if (error) {
+    return (
+      <section className="py-12 sm:py-16 md:py-24 overflow-hidden relative">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-destructive">
+            Erro ao carregar galeria. Tente novamente mais tarde.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  // Se não houver dados, retorna vazio
+  if (!projetosDestaque || projetosDestaque.length === 0) {
+    return null;
+  }
+
+  // Transforma os dados da API para o formato esperado pelo componente
+  const galleryImages = projetosDestaque.map((projeto: GaleriaProject) => ({
+    id: projeto.id,
+    title: projeto.title,
+    category: projeto.category,
+    image:
+      projeto.images.find((img) => img.is_primary)?.url ||
+      projeto.images[0]?.url ||
+      "",
+  }));
+
   // Double the array for seamless looping
   const duplicatedImages = [...galleryImages, ...galleryImages];
   const reversedImages = [...galleryImages].reverse();
@@ -54,10 +71,23 @@ const Gallery = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
             A Galeria <span className="gradient-text">Geek</span>
           </h2>
-          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto mb-6">
             Um showcase de projetos apaixonantes, encomendas personalizadas e
             colaborações criativas.
           </p>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Button asChild size="lg" variant="outline" className="group">
+              <Link to="/galeria" className="flex items-center gap-2">
+                Ver Todos os Projetos
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+          </motion.div>
         </motion.div>
 
         {/* Marquee Container */}
@@ -85,48 +115,55 @@ const Gallery = () => {
   );
 };
 
-const GalleryCard = ({
-  image,
-}: {
-  image: { id: number; title: string; category: string; image: string };
-}) => {
+interface GalleryCardProps {
+  image: {
+    id: number;
+    title: string;
+    category: string;
+    image: string;
+  };
+}
+
+const GalleryCard = ({ image }: GalleryCardProps) => {
   return (
-    <motion.div
-      whileHover={{
-        scale: 1.05,
-        rotateY: 5,
-        rotateX: -5,
-        z: 50,
-      }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="relative flex-shrink-0 w-56 h-36 sm:w-64 sm:h-44 md:w-72 md:h-48 rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer group"
-      style={{ perspective: "1000px" }}
-    >
-      {/* Actual image */}
-      <img
-        src={image.image}
-        alt={image.title}
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+    <Link to="/galeria">
+      <motion.div
+        whileHover={{
+          scale: 1.05,
+          rotateY: 5,
+          rotateX: -5,
+          z: 50,
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className="relative flex-shrink-0 w-56 h-36 sm:w-64 sm:h-44 md:w-72 md:h-48 rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer group"
+        style={{ perspective: "1000px" }}
+      >
+        {/* Actual image */}
+        <img
+          src={image.image}
+          alt={image.title}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
 
-      {/* Content */}
-      <div className="absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4 bg-gradient-to-t from-background/90 via-background/30 to-transparent">
-        <span className="text-xs font-medium text-primary mb-0.5 sm:mb-1">
-          {image.category}
-        </span>
-        <h3 className="text-sm sm:text-base md:text-lg font-bold text-foreground">
-          {image.title}
-        </h3>
-      </div>
+        {/* Content */}
+        <div className="absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4 bg-gradient-to-t from-background/90 via-background/30 to-transparent">
+          <span className="text-xs font-medium text-primary mb-0.5 sm:mb-1">
+            {image.category}
+          </span>
+          <h3 className="text-sm sm:text-base md:text-lg font-bold text-foreground">
+            {image.title}
+          </h3>
+        </div>
 
-      {/* Hover glow effect */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl ring-2 ring-primary/50" />
+        {/* Hover glow effect */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl ring-2 ring-primary/50" />
 
-      {/* Shine effect on hover */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-      </div>
-    </motion.div>
+        {/* Shine effect on hover */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+        </div>
+      </motion.div>
+    </Link>
   );
 };
 
