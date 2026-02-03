@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { toast } from "sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +16,20 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+/** Exibe toast "Site em construção" ao entrar no site e ao trocar de página */
+function ConstructionAlert() {
+  const location = useLocation();
+
+  useEffect(() => {
+    toast.info("Site em construção", {
+      description: "Estamos melhorando sua experiência. Obrigado pela visita!",
+      duration: 4000,
+    });
+  }, [location.pathname]);
+
+  return null;
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -20,6 +37,7 @@ const App = () => (
       <Sonner />
       <HashRouter>
         <ScrollToTop />
+        <ConstructionAlert />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/projetos" element={<Projetos />} />
