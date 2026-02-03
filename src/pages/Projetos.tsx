@@ -11,8 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { GaleriaProject } from "@/lib/api/types";
 
-const Galeria = () => {
-  const { data: galeria, isLoading, error } = useGaleria();
+const Projetos = () => {
+  const { data: projetos, isLoading, error } = useGaleria();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [modalProject, setModalProject] = useState<GaleriaProject | null>(null);
@@ -21,18 +21,18 @@ const Galeria = () => {
 
   // Extrai categorias únicas
   const categories = useMemo(() => {
-    if (!galeria) return [];
+    if (!projetos) return [];
     const uniqueCategories = Array.from(
-      new Set(galeria.map((p: GaleriaProject) => p.category))
+      new Set(projetos.map((p: GaleriaProject) => p.category))
     );
     return uniqueCategories;
-  }, [galeria]);
+  }, [projetos]);
 
   // Separa projetos em destaque e normais
   const { highlightedProjects, regularProjects } = useMemo(() => {
-    if (!galeria) return { highlightedProjects: [], regularProjects: [] };
+    if (!projetos) return { highlightedProjects: [], regularProjects: [] };
 
-    let filtered = galeria;
+    let filtered = projetos;
 
     // Filtro por categoria
     if (selectedCategory) {
@@ -48,7 +48,7 @@ const Galeria = () => {
     const regular = filtered.filter((p: GaleriaProject) => !p.is_highlighted);
 
     return { highlightedProjects: highlighted, regularProjects: regular };
-  }, [galeria, selectedCategory]);
+  }, [projetos, selectedCategory]);
 
   // Projetos filtrados (todos juntos para contagem)
   const filteredProjects = useMemo(() => {
@@ -57,11 +57,11 @@ const Galeria = () => {
 
   // Abre modal se houver parâmetro na URL
   useEffect(() => {
-    if (!galeria || isLoading) return;
+    if (!projetos || isLoading) return;
 
     const projectId = searchParams.get("project");
     if (projectId) {
-      const project = galeria.find(
+      const project = projetos.find(
         (p: GaleriaProject) => p.id === parseInt(projectId)
       );
       if (project) {
@@ -72,7 +72,7 @@ const Galeria = () => {
         setSearchParams({}, { replace: true });
       }
     }
-  }, [galeria, isLoading, searchParams, setSearchParams]);
+  }, [projetos, isLoading, searchParams, setSearchParams]);
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -101,7 +101,7 @@ const Galeria = () => {
         <Navbar />
         <div className="container mx-auto px-4 py-12 text-center">
           <p className="text-destructive text-lg">
-            Erro ao carregar galeria. Tente novamente mais tarde.
+            Erro ao carregar projetos. Tente novamente mais tarde.
           </p>
         </div>
         <Footer />
@@ -109,7 +109,7 @@ const Galeria = () => {
     );
   }
 
-  if (!galeria || galeria.length === 0) {
+  if (!projetos || projetos.length === 0) {
     return (
       <main className="min-h-screen bg-background">
         <Navbar />
@@ -125,8 +125,8 @@ const Galeria = () => {
     <main className="min-h-screen bg-background overflow-x-hidden">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative py-12 sm:py-16 md:py-24 overflow-hidden">
+      {/* Hero Section compacto */}
+      <section className="relative py-6 sm:py-8 md:py-10 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/20 to-background" />
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
@@ -134,14 +134,13 @@ const Galeria = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-8 sm:mb-12 pt-8 sm:pt-12 md:pt-16"
+            className="text-center mb-4 sm:mb-6 pt-6 sm:pt-8"
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
               Nossos <span className="gradient-text">Projetos</span>
             </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Explore nossa galeria completa de projetos realizados. Cada peça é
-              única e feita com paixão.
+            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+              Lista de projetos realizados. Cada peça é única e feita com paixão.
             </p>
           </motion.div>
 
@@ -151,7 +150,7 @@ const Galeria = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex flex-wrap justify-center gap-3 mb-8"
+              className="flex flex-wrap justify-center gap-2 mb-4 sm:mb-6"
             >
               <Button
                 variant={selectedCategory === null ? "default" : "outline"}
@@ -179,28 +178,28 @@ const Galeria = () => {
 
       {/* Seção de Projetos em Destaque */}
       {highlightedProjects.length > 0 && (
-        <section className="py-8 sm:py-12 relative">
+        <section className="py-4 sm:py-6 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
           <div className="container mx-auto px-4 sm:px-6 relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="mb-8"
+              className="mb-4"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-1 w-12 bg-gradient-primary rounded-full" />
-                <h2 className="text-2xl sm:text-3xl font-bold">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="h-0.5 w-8 bg-gradient-primary rounded-full" />
+                <h2 className="text-lg sm:text-xl font-bold">
                   Projetos em <span className="gradient-text">Destaque</span>
                 </h2>
-                <div className="h-1 flex-1 bg-gradient-primary rounded-full" />
+                <div className="h-0.5 flex-1 bg-gradient-primary rounded-full" />
               </div>
-              <p className="text-muted-foreground text-sm sm:text-base">
-                Nossos trabalhos mais especiais e representativos
+              <p className="text-muted-foreground text-xs sm:text-sm">
+                Nossos trabalhos mais especiais
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {highlightedProjects.map(
                 (project: GaleriaProject, index: number) => (
                   <motion.div
@@ -226,29 +225,29 @@ const Galeria = () => {
       )}
 
       {/* Grid de Projetos */}
-      <section className="py-8 sm:py-12">
-        <div className="container mx-auto px-4 sm:px-6">
+      <section className="py-4 sm:py-6">
+        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           {/* Título da seção de todos os projetos (só aparece se houver destaques) */}
           {highlightedProjects.length > 0 && regularProjects.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="mb-8"
+              className="mb-4"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-1 w-12 bg-gradient-primary rounded-full" />
-                <h2 className="text-2xl sm:text-3xl font-bold">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="h-0.5 w-8 bg-gradient-primary rounded-full" />
+                <h2 className="text-lg sm:text-xl font-bold">
                   Todos os <span className="gradient-text">Projetos</span>
                 </h2>
-                <div className="h-1 flex-1 bg-gradient-primary rounded-full" />
+                <div className="h-0.5 flex-1 bg-gradient-primary rounded-full" />
               </div>
             </motion.div>
           )}
 
           {filteredProjects.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground text-lg mb-2">
+            <div className="text-center py-8">
+              <p className="text-muted-foreground text-sm mb-2">
                 Nenhum projeto encontrado nesta categoria.
               </p>
               {selectedCategory && (
@@ -262,7 +261,7 @@ const Galeria = () => {
               )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {/* Se houver filtro de categoria, mostra todos juntos (destaques + regulares) */}
               {selectedCategory
                 ? filteredProjects.map(
@@ -304,4 +303,4 @@ const Galeria = () => {
   );
 };
 
-export default Galeria;
+export default Projetos;

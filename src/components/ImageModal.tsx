@@ -133,7 +133,7 @@ export const ImageModal = ({
 
   // Compartilhar projeto
   const handleShare = async () => {
-    const shareUrl = `${window.location.origin}/#/galeria?project=${project.id}`;
+    const shareUrl = `${window.location.origin}/#/projetos?project=${project.id}`;
     const shareText = `Confira este projeto: ${project.title} - ${project.description}`;
 
     if (navigator.share) {
@@ -154,7 +154,7 @@ export const ImageModal = ({
   };
 
   const handleCopyLink = async () => {
-    const shareUrl = `${window.location.origin}/#/galeria?project=${project.id}`;
+    const shareUrl = `${window.location.origin}/#/projetos?project=${project.id}`;
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);

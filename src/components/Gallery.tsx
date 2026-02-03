@@ -14,7 +14,7 @@ const Gallery = () => {
     return (
       <section className="py-12 sm:py-16 md:py-24 overflow-hidden relative">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-muted-foreground">Carregando galeria...</p>
+          <p className="text-muted-foreground">Carregando projetos...</p>
         </div>
       </section>
     );
@@ -26,7 +26,7 @@ const Gallery = () => {
       <section className="py-12 sm:py-16 md:py-24 overflow-hidden relative">
         <div className="container mx-auto px-4 text-center">
           <p className="text-destructive">
-            Erro ao carregar galeria. Tente novamente mais tarde.
+            Erro ao carregar projetos. Tente novamente mais tarde.
           </p>
         </div>
       </section>
@@ -69,7 +69,7 @@ const Gallery = () => {
           className="text-center mb-8 sm:mb-12 md:mb-16 px-4 sm:px-6"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
-            A Galeria <span className="gradient-text">Geek</span>
+            Os Projetos <span className="gradient-text">Geek</span>
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto mb-6">
             Um showcase de projetos apaixonantes, encomendas personalizadas e
@@ -82,7 +82,7 @@ const Gallery = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <Button asChild size="lg" variant="outline" className="group">
-              <Link to="/galeria" className="flex items-center gap-2">
+              <Link to="/projetos" className="flex items-center gap-2">
                 Ver Todos os Projetos
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
@@ -126,7 +126,7 @@ interface GalleryCardProps {
 
 const GalleryCard = ({ image }: GalleryCardProps) => {
   return (
-    <Link to="/galeria">
+    <Link to="/projetos">
     <motion.div
       whileHover={{
         scale: 1.05,

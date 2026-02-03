@@ -108,7 +108,7 @@ const Hero = () => {
                 </a>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link to="/galeria">Ver Galeria</Link>
+                <Link to="/projetos">Ver Projetos</Link>
               </Button>
             </motion.div>
 

@@ -42,7 +42,7 @@ export const ProjectImageCarousel = ({
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3 }}
-                  className="relative aspect-video w-full overflow-hidden rounded-t-2xl cursor-pointer group"
+                  className="relative aspect-video w-full overflow-hidden rounded-t-xl cursor-pointer group"
                   onClick={() => handleImageClick(index)}
                 >
                   <img

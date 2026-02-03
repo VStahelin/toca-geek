@@ -3,17 +3,21 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useFooter } from "@/hooks/useFooter";
 
 const navLinks = [
   { name: "Início", href: "/" },
   { name: "Serviços", href: "/servicos" },
-  { name: "Galeria", href: "/galeria" },
+  { name: "Projetos", href: "/projetos" },
+  { name: "Produtos", href: "/produtos" },
 ];
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { data: footerData } = useFooter();
+  const contactUrl = footerData?.social?.instagram || "#";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -95,7 +99,15 @@ const Navbar = () => {
 
         {/* CTA Button */}
         <div className="hidden md:block">
-          <Button size="sm">Entrar em Contato</Button>
+          <Button size="sm" asChild>
+            <a
+              href={contactUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Entrar em Contato
+            </a>
+          </Button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -153,8 +165,18 @@ const Navbar = () => {
                   </Link>
                 </motion.div>
               ))}
-              <Button className="w-full mt-3 sm:mt-4 text-sm sm:text-base">
-                Entrar em Contato
+              <Button
+                className="w-full mt-3 sm:mt-4 text-sm sm:text-base"
+                asChild
+              >
+                <a
+                  href={contactUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Entrar em Contato
+                </a>
               </Button>
             </div>
           </motion.div>

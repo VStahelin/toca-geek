@@ -12,7 +12,7 @@ import type { GaleriaResponse, SiteMap } from "./types";
  * @returns Array de projetos da galeria
  */
 export const getGaleria = async (): Promise<GaleriaResponse> => {
-  const response = await apiClient.get<GaleriaResponse>(API_ENDPOINTS.GALERIA);
+  const response = await apiClient.get<GaleriaResponse>(API_ENDPOINTS.PROJETOS);
   return response.data;
 };
 

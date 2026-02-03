@@ -7,6 +7,7 @@ export { default as apiClient } from "./client";
 export * from "./config";
 export * from "./types";
 export * from "./galeria.service";
+export * from "./produtos.service";
 export * from "./footer.service";
 export * from "./servicos.service";
 export * from "./empresas.service";

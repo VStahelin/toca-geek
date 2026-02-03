@@ -21,7 +21,8 @@ export const API_CONFIG = {
  * Endpoints da API
  */
 export const API_ENDPOINTS = {
-  GALERIA: "/data/galeria.json",
+  PROJETOS: "/data/projetos.json",
+  PRODUTOS: "/data/produtos.json",
   SITE_MAP: "/data/site_map.json",
   FOOTER: "/data/footer.json",
   SERVICOS: "/data/servicos.json",

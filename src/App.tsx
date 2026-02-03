@@ -5,7 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
-import Galeria from "./pages/Galeria";
+import Projetos from "./pages/Projetos";
+import Produtos from "./pages/Produtos";
+import ProdutoPage from "./pages/ProdutoPage";
 import Servicos from "./pages/Servicos";
 import NotFound from "./pages/NotFound";
 
@@ -20,7 +22,10 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/galeria" element={<Galeria />} />
+          <Route path="/projetos" element={<Projetos />} />
+          <Route path="/galeria" element={<Projetos />} />
+          <Route path="/produtos" element={<Produtos />} />
+          <Route path="/produtos/:id" element={<ProdutoPage />} />
           <Route path="/servicos" element={<Servicos />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
